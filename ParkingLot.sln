@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingLot", "ParkingLot\ParkingLot.csproj", "{FCA517FB-03CB-4993-AA08-2A1B6E968944}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingLot.Tests", "ParkingLot.Tests\ParkingLot.Tests.csproj", "{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCA517FB-03CB-4993-AA08-2A1B6E968944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA517FB-03CB-4993-AA08-2A1B6E968944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA517FB-03CB-4993-AA08-2A1B6E968944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA517FB-03CB-4993-AA08-2A1B6E968944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
