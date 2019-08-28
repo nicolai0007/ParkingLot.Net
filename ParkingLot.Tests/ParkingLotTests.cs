@@ -9,7 +9,7 @@ namespace ParkingLot.Tests
 
         public ParkingLotTests()
         {
-            //lot = new ParkingLot();
+            lot = new ParkingLot();
             Gates.Reset();
         }
 
@@ -152,7 +152,7 @@ namespace ParkingLot.Tests
         }
 
         [Fact]
-        public void CannotLeaveIfNotCheckinOut()
+        public void CannotLeaveIfNotCheckedIn()
         {
             Assert.Throws<InvalidOperationException>(() => lot.Leave("AB 123"));
         }
