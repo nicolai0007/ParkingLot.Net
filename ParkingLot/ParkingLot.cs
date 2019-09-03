@@ -5,12 +5,8 @@ namespace ParkingLot
 {
     public class ParkingLot : IParkingLot
     {
-        private List<string> checkedInCars = new List<string>();
-
-        public void BeginCheckout(string licensePlate)
-        {
-            throw new NotImplementedException();
-        }
+        readonly List<string> checkedInCars = new List<string>();
+        readonly Dictionary<string, decimal> debt = new Dictionary<string, decimal>();
 
         public void Checkin(string licensePlate)
         {
@@ -22,19 +18,55 @@ namespace ParkingLot
             Gates.OpenEntranceGate();
         }
 
-        public decimal GetRemainingFee(string licensePlate)
+        public void BeginCheckout(string licensePlate)
         {
-            throw new NotImplementedException();
+            if (checkedInCars.Contains(licensePlate))
+            {
+                debt.Add(licensePlate, 40);
+                checkedInCars.Remove(licensePlate);
+            }
+            else
+            {
+                Error("Car not checkedIn");
+            }
         }
 
-        public void Leave(string licensePlate)
+        public decimal GetRemainingFee(string licensePlate)
         {
-            throw new NotImplementedException();
+            return debt.GetValueOrDefault(licensePlate, 0);
         }
 
         public void Pay(string licensePlate, decimal amount)
         {
-            throw new NotImplementedException();
+            if (debt.ContainsKey(licensePlate))
+            {
+                if (amount >= 0)
+                {
+                    debt[licensePlate] -= amount;
+                }
+                else
+                {
+                    Error("You did not pay!");
+                }
+            }
+            else
+            {
+                Error("Something went wrong");
+            }
+        }
+
+        public void Leave(string licensePlate)
+        {
+            if (debt.ContainsKey(licensePlate) && debt[licensePlate] <= 0)
+            {
+                debt.Remove(licensePlate);
+                checkedInCars.Remove(licensePlate);
+                Gates.OpenExitGate();
+            }
+            else
+            {
+                Error("Please pay!");
+            }
         }
 
         void Error(string msg)

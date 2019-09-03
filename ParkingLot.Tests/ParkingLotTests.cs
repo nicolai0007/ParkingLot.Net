@@ -156,9 +156,5 @@ namespace ParkingLot.Tests
         {
             Assert.Throws<InvalidOperationException>(() => lot.Leave("AB 123"));
         }
-
-
-
-
     }
 }
