@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingLot", "ParkingLot\Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingLot.Tests", "ParkingLot.Tests\ParkingLot.Tests.csproj", "{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingLot.Fotex", "ParkingLot.Fotex\ParkingLot.Fotex.csproj", "{1C9DDD8B-30BF-437B-B990-29D0F5BE16BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,9 @@ Global
 		{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEB91A77-B57A-4E0E-BEBD-F498A1743B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C9DDD8B-30BF-437B-B990-29D0F5BE16BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C9DDD8B-30BF-437B-B990-29D0F5BE16BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C9DDD8B-30BF-437B-B990-29D0F5BE16BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C9DDD8B-30BF-437B-B990-29D0F5BE16BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

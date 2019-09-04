@@ -12,7 +12,7 @@ namespace ParkingLot.Tests
         public ParkingLotTests()
         {
             clock = new TestClock();
-            lot = new ParkingLot(clock);
+            lot = new ParkingLot(clock, 15, TimeSpan.FromMinutes(15), TimeSpan.Zero);
             Gates.Reset();
         }
 
