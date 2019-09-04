@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Xunit;
 
 namespace ParkingLot.Tests
@@ -6,10 +7,12 @@ namespace ParkingLot.Tests
     public class ParkingLotTests
     {
         readonly IParkingLot lot;
+        readonly TestClock clock;
 
         public ParkingLotTests()
         {
-            lot = new ParkingLot();
+            clock = new TestClock();
+            lot = new ParkingLot(clock);
             Gates.Reset();
         }
 
@@ -67,29 +70,32 @@ namespace ParkingLot.Tests
         }
 
         [Fact]
-        public void Owes40WhenBeginingCheckingOut()
+        public void Owes15WhenBeginingCheckingOut()
         {
             lot.Checkin("AB 12 123");
+            clock.Forward(TimeSpan.FromMilliseconds(1));
             lot.BeginCheckout("AB 12 123");
 
-            Assert.Equal(40m, lot.GetRemainingFee("AB 12 123"));
+            Assert.Equal(15m, lot.GetRemainingFee("AB 12 123"));
         }
 
         [Fact]
-        public void Owes10WhenPaid30()
+        public void Owes5WhenPaid10()
         {
             lot.Checkin("AB 12 123");
+            clock.Forward(TimeSpan.FromMilliseconds(1));
             lot.BeginCheckout("AB 12 123");
 
-            lot.Pay("AB 12 123", 30m);
+            lot.Pay("AB 12 123", 10m);
 
-            Assert.Equal(10m, lot.GetRemainingFee("AB 12 123"));
+            Assert.Equal(5m, lot.GetRemainingFee("AB 12 123"));
         }
 
         [Fact]
         public void CannotLeaveWithoutPaying()
         {
             lot.Checkin("AB 12 123");
+            clock.Forward(TimeSpan.FromMilliseconds(1));
             lot.BeginCheckout("AB 12 123");
 
             Assert.Throws<InvalidOperationException>(() => lot.Leave("AB 12 123"));
@@ -99,9 +105,10 @@ namespace ParkingLot.Tests
         public void CannotLeaveWithoutPayingFullFee()
         {
             lot.Checkin("AB 12 123");
+            clock.Forward(TimeSpan.FromMilliseconds(1));
             lot.BeginCheckout("AB 12 123");
 
-            lot.Pay("AB 12 123", 30m);
+            lot.Pay("AB 12 123", 10m);
 
             Assert.Throws<InvalidOperationException>(() => lot.Leave("AB 12 123"));
         }
@@ -124,12 +131,13 @@ namespace ParkingLot.Tests
         public void CanLeaveWhenMoreThanFeeIsPayed()
         {
             lot.Checkin("AB 12 123");
+            clock.Forward(TimeSpan.FromMilliseconds(1));
             lot.BeginCheckout("AB 12 123");
 
-            lot.Pay("AB 12 123", 20m);
+            lot.Pay("AB 12 123", 10m);
             lot.Pay("AB 12 123", 50m);
 
-            Assert.Equal(-30m, lot.GetRemainingFee("AB 12 123"));
+            Assert.Equal(-45m, lot.GetRemainingFee("AB 12 123"));
             lot.Leave("AB 12 123");
 
             Assert.Equal(0, Gates.NumberOfCars);
@@ -155,6 +163,29 @@ namespace ParkingLot.Tests
         public void CannotLeaveIfNotCheckedIn()
         {
             Assert.Throws<InvalidOperationException>(() => lot.Leave("AB 123"));
+        }
+
+        [Fact]
+        public void ItCosts30ToPark24Minutes()
+        {
+            lot.Checkin("AB 12 123");
+
+            clock.Forward(TimeSpan.FromMinutes(24));
+            lot.BeginCheckout("AB 12 123");
+
+            Assert.Equal(30m, lot.GetRemainingFee("AB 12 123"));
+        }
+
+        [Fact]
+        public void ItCosts30ToPark30Minutes()
+        {
+            // Opgave: lav test
+        }
+
+        [Fact]
+        public void ItCosts45ToPark30MinutesAnd1Ms()
+        {
+            // Opgave: lav test
         }
     }
 }

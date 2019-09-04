@@ -5,24 +5,37 @@ namespace ParkingLot
 {
     public class ParkingLot : IParkingLot
     {
-        readonly List<string> checkedInCars = new List<string>();
+        readonly Dictionary<string, DateTime> checkedInCars = new Dictionary<string, DateTime>();
         readonly Dictionary<string, decimal> debt = new Dictionary<string, decimal>();
+        readonly IClock clock;
+
+        public ParkingLot(IClock clock)
+        {
+            this.clock = clock;
+        }
 
         public void Checkin(string licensePlate)
         {
-            if (checkedInCars.Contains(licensePlate))
+            if (checkedInCars.ContainsKey(licensePlate))
             {
                 Error("Car already checked in");
             }
-            checkedInCars.Add(licensePlate);
+            checkedInCars.Add(licensePlate, clock.Now());
             Gates.OpenEntranceGate();
         }
 
         public void BeginCheckout(string licensePlate)
         {
-            if (checkedInCars.Contains(licensePlate))
+            if (checkedInCars.ContainsKey(licensePlate))
             {
-                debt.Add(licensePlate, 40);
+                var checkinTime = checkedInCars[licensePlate];
+                var checkoutTime = clock.Now();
+
+                var time = checkoutTime - checkinTime;
+                var quaters = (decimal)(time / TimeSpan.FromMinutes(15));
+                var quatersBegun = Math.Ceiling(quaters);
+
+                debt.Add(licensePlate, quatersBegun * 15);
                 checkedInCars.Remove(licensePlate);
             }
             else
