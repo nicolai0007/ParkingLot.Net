@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ParkingLot
 {
@@ -13,9 +14,35 @@ namespace ParkingLot
 
         public bool Exit { get; private set; }
 
-        public string Command(string cmd, params string[] @params)
+        public void Run()
         {
-            var debt = 0m;
+            while (!Exit)
+            {
+                Console.Write(": ");
+                var input = Console.ReadLine().Split(" ");
+
+                try
+                {
+                    var output = Command(input[0], input.Skip(1).ToArray());
+                    if (!string.IsNullOrWhiteSpace(output))
+                    {
+                        Console.Write("! ");
+                        Console.WriteLine(output);
+                        Console.WriteLine();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("!!!!!!!!!!!!!!!!!!");
+                    Console.Error.WriteLine(e.Message);
+                    Console.Error.WriteLine("!!!!!!!!!!!!!!!!!!");
+                }
+            }
+        }
+
+        string Command(string cmd, params string[] @params)
+        {
+            decimal debt;
             switch (cmd)
             {
                 case ">":
@@ -34,11 +61,13 @@ namespace ParkingLot
 
                     if (debt == 0)
                     {
-                        msg += " og kan forlade pladsen.";
+                        msg += " og forlader pladsen.";
+                        parkingLot.Leave(@params[0]);
                     }
                     else if (debt < 0)
                     {
-                        msg += $" og kan forlade pladsen. Byttepenge: {-debt} DKK.";
+                        msg += $" og forlader pladsen. Byttepenge: {-debt} DKK.";
+                        parkingLot.Leave(@params[0]);
                     }
                     else
                     {
@@ -49,7 +78,11 @@ namespace ParkingLot
                     Exit = true;
                     return null;
                 default:
-                    return "What!?";
+                    return "WTF? Does this help: \n" +
+                        "> plate          : checkin a car\n" +
+                        "< plate          : begin checking out a car\n" +
+                        "$ plate amount   : pay and try to leave\n" +
+                        "exit             : exits the program";
             }
         }
     }
