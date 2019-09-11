@@ -7,7 +7,7 @@ namespace ParkingLot.Bilka
         static void Main()
         {
             Console.WriteLine("### Velkommen til Bilkas parkeringsplads ###");
-            var parkingLot = new ParkingLot(new RealClock(), null);
+            var parkingLot = new ParkingLot(new RealClock(), new BilkaPriceStragegy());
 
             var cli = new ParkingLotCLI(parkingLot);
 
