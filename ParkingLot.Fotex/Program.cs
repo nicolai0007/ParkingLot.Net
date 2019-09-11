@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace ParkingLot.Fotex
 {
@@ -9,7 +8,8 @@ namespace ParkingLot.Fotex
         {
             Console.WriteLine("### Velkommen til Føtex' parkeringsplads ###");
             var parkingLot = new ParkingLot(
-                new RealClock(), 15, TimeSpan.FromMinutes(15), TimeSpan.Zero);
+                new RealClock(),
+                new FotexPriceStrategy());
 
             var cli = new ParkingLotCLI(parkingLot);
 

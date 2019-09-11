@@ -14,5 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ParkingLot\ParkingLot.csproj" />
+    <ProjectReference Include="..\ParkingLot.Fotex\ParkingLot.Fotex.csproj" />
   </ItemGroup>
 </Project>

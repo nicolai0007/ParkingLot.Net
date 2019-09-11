@@ -8,16 +8,12 @@ namespace ParkingLot
         readonly Dictionary<string, DateTime> checkedInCars = new Dictionary<string, DateTime>();
         readonly Dictionary<string, decimal> debt = new Dictionary<string, decimal>();
         readonly IClock clock;
-        readonly decimal price;
-        readonly TimeSpan span;
-        readonly TimeSpan freeTime;
+        readonly IPriceStrategy priceStrategy;
 
-        public ParkingLot(IClock clock, decimal price, TimeSpan span, TimeSpan freeTime)
+        public ParkingLot(IClock clock, IPriceStrategy priceStrategy)
         {
-            this.price = price;
-            this.span = span;
-            this.freeTime = freeTime;
             this.clock = clock;
+            this.priceStrategy = priceStrategy;
         }
 
         public void Checkin(string licensePlate)
@@ -38,20 +34,21 @@ namespace ParkingLot
                 var checkoutTime = clock.Now();
 
                 var time = checkoutTime - checkinTime;
+                debt.Add(licensePlate, priceStrategy.CalcalatePrice(time));
 
-                var payedTime = time - freeTime;
+                //var payedTime = time - freeTime;
 
-                if (payedTime < TimeSpan.Zero)
-                {
-                    debt.Add(licensePlate, 0);
-                }
-                else
-                {
-                    var spans = (decimal)(payedTime / span);
-                    var spansBegun = Math.Ceiling(spans);
+                //if (payedTime < TimeSpan.Zero)
+                //{
+                //    debt.Add(licensePlate, 0);
+                //}
+                //else
+                //{
+                //    var spans = (decimal)(payedTime / span);
+                //    var spansBegun = Math.Ceiling(spans);
 
-                    debt.Add(licensePlate, spansBegun * price);
-                }
+                //    debt.Add(licensePlate, spansBegun * price);
+                //}
                 checkedInCars.Remove(licensePlate);
             }
             else
